@@ -11,6 +11,7 @@ namespace ChatSystem_v3.Controllers
 {
     public class HomeController : Controller
     {
+        [Authorize]
         public IActionResult Index()
         {
             return View();
