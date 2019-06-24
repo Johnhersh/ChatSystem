@@ -14,6 +14,7 @@ using ChatSystem_v3.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SignalRChat.Hubs;
+using ChatSystem_v3.Models;
 
 namespace ChatSystem_v3
 {
@@ -39,6 +40,9 @@ namespace ChatSystem_v3
             services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options =>
                     options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddEntityFrameworkNpgsql().AddDbContext<MsgDbContext>(options =>
+                    options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddDefaultIdentity<IdentityUser>(options =>
             {
                 options.Password.RequiredLength = 5;
@@ -53,6 +57,8 @@ namespace ChatSystem_v3
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSignalR();
+
+            services.AddScoped<MessageSaver>();
 
         }
 
