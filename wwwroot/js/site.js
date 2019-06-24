@@ -56,11 +56,13 @@
         console.log(self);
         if (self) {
             newMessage.className = ('list-group-item ml-auto text-right list-group-item-secondary');
-            newMessage.style = ('display: inline-block; max-width: 60%; right:20px; border-radius: 25px; margin-top:2px; margin-bottom:2px;');
+            newMessage.id = "selfMessage";
+            //newMessage.style = ('display: inline-block; max-width: 60%; right:20px; border-radius: 25px; margin-top:2px; margin-bottom:2px;');
             newMessage.innerHTML = msg;
         } else {
             newMessage.className = ('list-group-item');
-            newMessage.style = ('display: inline-block; max-width: 60%; border-radius: 25px; margin-top:2px; margin-bottom:2px;');
+            newMessage.id = "message";
+            //newMessage.style = ('display: inline-block; max-width: 60%; border-radius: 25px; margin-top:2px; margin-bottom:2px;');
             newMessage.innerHTML = '<h6 class="text-success">'+user+'  <small>'+FullDate+'</small>'+'</h6>'+msg;
         }
 

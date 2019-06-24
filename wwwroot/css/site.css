@@ -54,3 +54,21 @@ body {
   height: 60px;
   line-height: 60px; /* Vertically center the text there */
 }
+
+/*Info for messages*/
+#message {
+    display: inline-block;
+    max-width: 60%;
+    border-radius: 25px;
+    margin-top:2px;
+    margin-bottom:2px;
+}
+
+#selfMessage {
+    display: inline-block;
+    max-width: 60%;
+    right:20px; /*to avoid the scrollbar*/
+    border-radius:25px;
+    margin-top:2px;
+    margin-bottom:2px;
+}
