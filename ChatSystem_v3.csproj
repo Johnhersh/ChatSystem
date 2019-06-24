@@ -22,5 +22,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Models\MessageClass.cs" />
+    <Compile Remove="Models\MessageSaver.cs" />
   </ItemGroup>
 </Project>
