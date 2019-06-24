@@ -5,29 +5,13 @@
 <div class="container">
     <div class="row">
         <div class="container col-md-10 mx-auto">
-            <div class="overflow-auto d-flex flex-column" style="height: 50vh">
-                <div class="list-group-item w-75">Cras justo odio</div>
-                <div class="list-group-item w-75">Dapibus ac facilisis in</div>
-                <div class="list-group-item" style="display: inline-block; max-width: 60%">Morbi leo risus</div>
-                <div class="list-group-item" style="display: inline-block; max-width: 60%">Porta ac consectetur ac Dapibus ac facilisis in Dapibus ac facilisis in Dapibus ac facilisis in</div>
-                <div class="list-group-item active ml-auto text-right" style="display: inline-block">Vestibulum at eros</div>
-                <div class="list-group-item w-75">Vestibulum at eros</div>
-                <div class="list-group-item w-75">Cras justo odio</div>
-                <div class="list-group-item w-75">Dapibus ac facilisis in</div>
-                <div class="list-group-item" style="display: inline-block; max-width: 60%">Morbi leo risus</div>
-                <div class="list-group-item" style="display: inline-block; max-width: 60%">Porta ac consectetur ac Dapibus ac facilisis in Dapibus ac facilisis in Dapibus ac facilisis in</div>
-                <div class="list-group-item active ml-auto text-right" style="display: inline-block">Vestibulum at eros</div>
-                <div class="list-group-item" style="display: inline-block; max-width: 60%">Morbi leo risus</div>
-                <div class="list-group-item" style="display: inline-block; max-width: 60%">Porta ac consectetur ac Dapibus ac facilisis in Dapibus ac facilisis in Dapibus ac facilisis in</div>
-                <div class="list-group-item active ml-auto text-right rounded-pill" style="display: inline-block">Vestibulum at eros</div>
-                <div class="btn btn-secondary rounded-pill" style="display: inline-block; max-width: 60%">Vestibulum at eros</div>
-            </div>
+            <div id="messagesList" class="overflow-auto d-flex flex-column" style="height: 50vh"></div>
         </div>
         <div class="w-100"></div>
         <div class="input-group col-md-10 mx-auto">
-            <input type="text" class="form-control" placeholder="Message" aria-label="Message" aria-describedby="button-addon2">
+            <input id="messageInput" type="text" class="form-control" placeholder="Message" aria-label="Message" aria-describedby="button-addon2">
             <div class="input-group-append">
-                <button class="btn btn-info" type="button" id="button-addon2">
+                <button class="btn btn-info" type="button" id="sendButton">
                     <i class="far fa-paper-plane"></i>
                 </button>
             </div>

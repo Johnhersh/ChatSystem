@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -21,5 +22,19 @@ namespace ChatSystem_v3
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .UseUrls("http://*:5000");
+    }
+}
+
+namespace SignalRChat.Hubs
+{
+    public class ChatHub : Hub
+    {
+        public async Task SendMessage(string message)
+        {
+            string username = Context.User.Identity.Name;
+            await Clients.Others.SendAsync("ReceiveMessage", username, message, false);
+            await Clients.Caller.SendAsync("ReceiveMessage", username, message, true);
+            //await Clients.All.SendAsync("ReceiveMessage", user, message);
+        }
     }
 }

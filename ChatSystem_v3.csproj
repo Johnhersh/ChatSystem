@@ -18,5 +18,6 @@
 
   <ItemGroup>
     <Content Remove="Views\Shared\_LoginPartial.cshtml" />
+    <Content Remove="wwwroot\lib\package-lock.json" />
   </ItemGroup>
 </Project>
