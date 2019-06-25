@@ -43,16 +43,17 @@ namespace SignalRChat.Hubs
         public async Task SendMessage(string message)
         {
             MsgDbClass NewMessage = new MsgDbClass();
+            _context.Messages.Add(NewMessage);
 
             string username = Context.User.Identity.Name;
-            await Clients.Others.SendAsync("ReceiveMessage", username, message, false);
-            await Clients.Caller.SendAsync("ReceiveMessage", username, message, true);
-
             NewMessage.User = username;
             NewMessage.Message = message;
-            NewMessage.Time = DateTime.Now.ToString();
+            NewMessage.Time = DateTime.Now.ToString("MMMM dd, HH:mm");
 
-            _context.Messages.Add(NewMessage);
+            //Console.WriteLine("***********************************");
+            //Console.WriteLine("Sending Message: "+ NewMessage.Time);
+            await Clients.Others.SendAsync("ReceiveMessage", NewMessage.User, NewMessage.Message, NewMessage.Time, false);
+            await Clients.Caller.SendAsync("ReceiveMessage", NewMessage.User, NewMessage.Message, NewMessage.Time, true);
 
             try
             {
@@ -71,20 +72,20 @@ namespace SignalRChat.Hubs
             string username = Context.User.Identity.Name;
             var msgList = (from msg in _context.Messages
                           orderby msg.Id descending
-                          select msg).Take(20);
+                          select msg).Take(100);
             var result = msgList.ToList();
 
-            Console.WriteLine("***********************************");
-            Console.WriteLine("Entering For Loop: "+ result.Count());
+            //Console.WriteLine("***********************************");
+            //Console.WriteLine("Entering For Loop: "+ result.Count());
             //foreach (MsgDbClass msg in msgList)
-            for (var i=result.Count()-1; i>0; i--)
+            for (var i=result.Count()-1; i>=0; i--)
             {
                 Console.WriteLine("***********************************");
                 Console.WriteLine("Found Message: " + result[i].Message);
 
-            if (result[i].User == username)
-                    await Clients.Caller.SendAsync("ReceiveMessage", username, result[i].Message, true);
-                else await Clients.Caller.SendAsync("ReceiveMessage", result[i].User, result[i].Message, false);
+                if (result[i].User == username)
+                    await Clients.Caller.SendAsync("ReceiveMessage", username, result[i].Message, result[i].Time, true);
+                else await Clients.Caller.SendAsync("ReceiveMessage", result[i].User, result[i].Message, result[i].Time, false);
 
             }
         }

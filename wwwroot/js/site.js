@@ -2,7 +2,7 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-(function () {
+$(function () {
     var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build(); // This is to open the SignalR connection
 
     document.getElementById("sendButton").addEventListener("click", function (event) {
@@ -19,12 +19,22 @@
     function SendMessage() {
         var message = document.getElementById("messageInput").value;
         if (message.length == 0) return;
-        console.log("Sending: "+message);
+        //console.log("Sending: "+message);
         connection.invoke("SendMessage", message).catch(function (err) {
             return console.error(err.toString());
         });
         document.getElementById("messageInput").value = '';
     }
+
+    connection.onclose(e => {
+        console.log("Closed connection, trying to reconnect");
+        setTimeout(function() {
+            connection.start().then(function () {
+                console.log("Reconnecting");
+                doOnConnect();
+            })
+        }, 5000); // Restart connection after 5 seconds.
+    });
 
     connection.start().then(function () {
         doOnConnect();
@@ -32,41 +42,52 @@
         return console.error(err.toString());
     });
 
+
     function doOnConnect() {
         connection.invoke("GetOldMessages");
     }
 
-    function pad(n) {
-       return n<10 ? '0'+n : n;
-    }
+    //var chatHub = $.connection.chatHub;
 
-    connection.on("ReceiveMessage", function (user, message, self) {
+
+
+    /*connection.on("OnReconnected", function () {
+        console.log("Doing Reconnecting");
+    });
+
+    connection.on("OnDisconnected", function () {
+        console.log("SignalR Disconnected");
+    });
+    
+    connection.chatHub.reconnecting(function() {
+        console.log("Doing Reconnecting");
+    });
+
+    connection.chatHub.reconnected(function() {
+        console.log("All Reconnected");
+    });
+    
+    connection.chatHub.disconnected(function() {
+        console.log("On Disconnected");
+    });*/
+
+    connection.on("ReceiveMessage", function (user, message, timestamp, self) {
         var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
         
         var ScrollBox = document.getElementById("messagesList");
         var newMessage = document.createElement('div');
 
-        var currentDate = new Date();
-        var date = currentDate.getDate();
-        var month = currentDate.getMonth(); 
-        var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        var time = currentDate.getHours() + ":" + currentDate.getMinutes();
-
-        var FullDate = monthNames[month] + " " + pad(date) + " " + time;
-
-
         msg = "<h6 align='left'>" + msg + "</h>";
-        console.log(self);
-        if (self) {
+        //console.log(self);
+        if (self == true) {
             newMessage.className = ('list-group-item ml-auto text-right list-group-item-secondary');
             newMessage.id = "selfMessage";
-            //newMessage.style = ('display: inline-block; max-width: 60%; right:20px; border-radius: 25px; margin-top:2px; margin-bottom:2px;');
             newMessage.innerHTML = msg;
         } else {
             newMessage.className = ('list-group-item');
             newMessage.id = "message";
-            //newMessage.style = ('display: inline-block; max-width: 60%; border-radius: 25px; margin-top:2px; margin-bottom:2px;');
-            newMessage.innerHTML = '<h6 class="text-success">'+user+'  <small>'+FullDate+'</small>'+'</h6>'+msg;
+            //console.log(timestamp);
+            newMessage.innerHTML = '<h6 class="text-success">'+user+'  <small>'+timestamp+'</small>'+'</h6>'+msg;
         }
 
         document.getElementById("messagesList").appendChild(newMessage);
