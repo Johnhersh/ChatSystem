@@ -9,6 +9,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -60,6 +61,31 @@ namespace SignalRChat.Hubs
             catch (Exception)
             {
                 Console.WriteLine("Something went wrong with saving a message!");
+            }
+        }
+
+        //public async Task GetOldMessages()
+        public async Task GetOldMessages()
+        {
+            //Console.WriteLine("Getting Old Message");
+            string username = Context.User.Identity.Name;
+            var msgList = (from msg in _context.Messages
+                          orderby msg.Id descending
+                          select msg).Take(20);
+            var result = msgList.ToList();
+
+            Console.WriteLine("***********************************");
+            Console.WriteLine("Entering For Loop: "+ result.Count());
+            //foreach (MsgDbClass msg in msgList)
+            for (var i=result.Count()-1; i>0; i--)
+            {
+                Console.WriteLine("***********************************");
+                Console.WriteLine("Found Message: " + result[i].Message);
+
+            if (result[i].User == username)
+                    await Clients.Caller.SendAsync("ReceiveMessage", username, result[i].Message, true);
+                else await Clients.Caller.SendAsync("ReceiveMessage", result[i].User, result[i].Message, false);
+
             }
         }
     }

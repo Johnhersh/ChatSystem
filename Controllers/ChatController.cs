@@ -31,13 +31,6 @@ namespace ChatSystem_v3.Controllers
         [HttpPost]
         public void Post([FromBody]string value)
         {
-            /*MessageClass tempMessage = new MessageClass
-            {
-                Name = "Russel Brand2",
-                Message = "Is the shit"
-            };
-
-            return value;*/
         }
 
         // PUT api/values/5

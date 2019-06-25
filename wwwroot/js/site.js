@@ -24,14 +24,17 @@
             return console.error(err.toString());
         });
         document.getElementById("messageInput").value = '';
-
-        //event.preventDefault();
     }
 
-    connection.start().then(function(){
+    connection.start().then(function () {
+        doOnConnect();
     }).catch(function (err) {
         return console.error(err.toString());
     });
+
+    function doOnConnect() {
+        connection.invoke("GetOldMessages");
+    }
 
     function pad(n) {
        return n<10 ? '0'+n : n;
@@ -39,7 +42,7 @@
 
     connection.on("ReceiveMessage", function (user, message, self) {
         var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-
+        
         var ScrollBox = document.getElementById("messagesList");
         var newMessage = document.createElement('div');
 
