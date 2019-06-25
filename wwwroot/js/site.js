@@ -31,6 +31,13 @@ $(function () {
         setTimeout(function() {
             connection.start().then(function () {
                 console.log("Reconnecting");
+
+                var myNode = document.getElementById("messagesList");
+                //Gotta remove all the child divs so that the message list is clean. Otherwise if the user scrolls back they'll see the same messages repeated
+                while (myNode.firstChild) {
+                    myNode.removeChild(myNode.firstChild);
+                }
+
                 doOnConnect();
             })
         }, 5000); // Restart connection after 5 seconds.
