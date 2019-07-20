@@ -20,7 +20,7 @@ $(function () {
         var message = document.getElementById("messageInput").value;
         if (message.length == 0) return;
         //console.log("Sending: "+message);
-        connection.invoke("SendMessage", message).catch(function (err) {
+        connection.invoke("SendMessage", message, "").catch(function (err) {
             return console.error(err.toString());
         });
         document.getElementById("messageInput").value = '';
@@ -65,7 +65,7 @@ $(function () {
     connection.on("OnDisconnected", function () {
         console.log("SignalR Disconnected");
     });
-    
+
     connection.chatHub.reconnecting(function() {
         console.log("Doing Reconnecting");
     });
@@ -73,14 +73,14 @@ $(function () {
     connection.chatHub.reconnected(function() {
         console.log("All Reconnected");
     });
-    
+
     connection.chatHub.disconnected(function() {
         console.log("On Disconnected");
     });*/
 
     connection.on("ReceiveMessage", function (user, message, timestamp, self) {
         var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        
+
         var ScrollBox = document.getElementById("messagesList");
         var newMessage = document.createElement('div');
 
@@ -98,7 +98,7 @@ $(function () {
         }
 
         document.getElementById("messagesList").appendChild(newMessage);
-        
+
         ScrollBox.scrollTop = ScrollBox.scrollHeight;
     });
 }());

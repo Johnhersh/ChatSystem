@@ -4,10 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChatSystem_v3.Areas.Identity.Data
 {
+    [IgnoreAntiforgeryToken(Order = 1001)]
+
     public class ChatSystem_v3IdentityDbContext : IdentityDbContext<IdentityUser>
     {
         public ChatSystem_v3IdentityDbContext(DbContextOptions<ChatSystem_v3IdentityDbContext> options)

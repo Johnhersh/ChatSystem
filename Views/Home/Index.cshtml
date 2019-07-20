@@ -2,6 +2,11 @@
     ViewData["Title"] = "Home Page";
 }
 
+<!-- Need to set the username for use with SignalR -->
+@{
+    var username = Context.User.Identity.Name;
+}
+
 <div class="container">
     <div class="row">
         <div class="container col-md-10 mx-auto">

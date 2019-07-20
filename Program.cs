@@ -40,12 +40,21 @@ namespace SignalRChat.Hubs
             _context = context;
         }
 
-        public async Task SendMessage(string message)
+        public async Task SendMessage(string message, string user="")
         {
             MsgDbClass NewMessage = new MsgDbClass();
             _context.Messages.Add(NewMessage);
 
-            string username = Context.User.Identity.Name;
+            string username;
+            if (user == "")
+            {
+                username = Context.User.Identity.Name;
+            } else
+            {
+                username = user;
+            }
+            //string username = Context.User.Identity.Name;
+            //NewMessage.User = username;
             NewMessage.User = username;
             NewMessage.Message = message;
             NewMessage.Time = DateTime.Now.ToString("MMMM dd, HH:mm");

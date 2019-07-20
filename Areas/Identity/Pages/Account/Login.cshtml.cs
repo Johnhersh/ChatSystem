@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace ChatSystem_v3.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
+    [IgnoreAntiforgeryToken(Order = 1001)]
     public class LoginModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
