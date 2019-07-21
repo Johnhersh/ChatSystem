@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ChatSystem_v3.Areas.Identity
 {
-    [IgnoreAntiforgeryToken(Order = 1001)]
+    //[IgnoreAntiforgeryToken(Order = 1001)]
 
     public class IdentityHostingStartup : IHostingStartup
     {

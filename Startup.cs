@@ -56,11 +56,6 @@ namespace ChatSystem_v3
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-			services.AddMvc().AddRazorPagesOptions(o =>
-			{
-				o.Conventions.ConfigureFilter(new IgnoreAntiforgeryTokenAttribute());
-			});
-
 			services.AddSignalR();
 		}
 

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ChatSystem_v3.Areas.Identity.Data
 {
-    [IgnoreAntiforgeryToken(Order = 1001)]
+    //[IgnoreAntiforgeryToken(Order = 1001)]
 
     public class ChatSystem_v3IdentityDbContext : IdentityDbContext<IdentityUser>
     {
