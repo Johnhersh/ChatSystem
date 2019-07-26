@@ -74,20 +74,19 @@ namespace SignalRChat.Hubs
             }
         }
 
-        //public async Task GetOldMessages()
         public async Task GetOldMessages()
         {
             //Console.WriteLine("Getting Old Message");
             string username = Context.User.Identity.Name;
             var msgList = (from msg in _context.Messages
-                          orderby msg.Id descending
-                          select msg).Take(100);
+                           orderby msg.Id descending
+                           select msg).Take(100);
             var result = msgList.ToList();
 
             //Console.WriteLine("***********************************");
             //Console.WriteLine("Entering For Loop: "+ result.Count());
             //foreach (MsgDbClass msg in msgList)
-            for (var i=result.Count()-1; i>=0; i--)
+            for (var i = result.Count() - 1; i >= 0; i--)
             {
                 Console.WriteLine("***********************************");
                 Console.WriteLine("Found Message: " + result[i].Message);

@@ -27,14 +27,17 @@ namespace ChatSystem_v3.Controllers
     [IgnoreAntiforgeryToken(Order = 1001)]
     public class MobileLogin : Controller
     {
+        private readonly MsgDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
 
         public MobileLogin(UserManager<IdentityUser> userManager,
-                           SignInManager<IdentityUser> signInManager)
+                           SignInManager<IdentityUser> signInManager,
+                           MsgDbContext context)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _context = context;
         }
 
         public async Task<bool> OnPostAsync(UserItem NewUser)
@@ -46,9 +49,16 @@ namespace ChatSystem_v3.Controllers
 
         // GET: api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public List<MsgDbClass> Get()
         {
-            return new string[] { "value1", "value2" };
+            var msgList = (from msg in _context.Messages
+                           orderby msg.Id descending
+                           select msg).Take(100);
+            var result = msgList.ToList();
+
+            result.Reverse();
+
+            return result;
         }
 
         // GET api/values/5
